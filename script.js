@@ -1,6 +1,11 @@
 /**
  * Created by danh on 10/18/16.
  */
+
+var games_played = 0;
+var player_x_wins = 0;
+var player_o_wins = 0;
+
 var cell_template = function(parent){
     var self = this;
     this.parent = parent;
@@ -29,11 +34,12 @@ var cell_template = function(parent){
         $("#temp_placeholder").remove();
 
         var current_player = self.parent.get_current_player();
-        self.symbol = current_player.get_symbol();
-        self.add_temp_placeholder(self.symbol);
+        //self.symbol = current_player.get_symbol();
+        self.add_temp_placeholder(current_player.get_symbol());
 
         clearInterval(main_game.timeCounter); // stops the timer from counting down
-        var randomIndex = Math.floor(Math.random() * questionArray.length);
+        var randomIndex = Math.floor(Math.random() * (questionArray.length));
+        //console.log(randomIndex);
         /*
          random generate a number between our question array length.
          Afterwards, takes the same random index and look at the choices array
@@ -76,8 +82,11 @@ var cell_template = function(parent){
             //debugger;
             if(userChoice === answerArray[randomIndex])
             {
-                console.log($(this));
+                //console.log($(this));
                 $(this).addClass('green_advice');
+                var coins = new Audio('assets/sounds/coins.mp3');
+                coins.volume = 0.2;
+                coins.play();
                 // var advice = $("<div>", {
                 //     class: "green_advice",
                 //     text: answerArray[randomIndex]
@@ -91,8 +100,8 @@ var cell_template = function(parent){
                 //     $('.choices:eq('+i+')').hide(i*500);
                 //
                 // }
-            } else {
-                console.log($(this));
+            } else { // When the user click on the wrong answer
+                //console.log($(this));
                 $(this).addClass('red_advice');
                 var advice = $("<div>", {
                     class: "green_advice",
@@ -107,6 +116,9 @@ var cell_template = function(parent){
                 // }
                 // $(".choices").hide(1000);
                 $("#answer").append(advice);
+                var wrong = new Audio('assets/sounds/wrong.mp3');
+                //wrong.volume = 0.2;
+                wrong.play();
                 this.outcome = false;
             }
 
@@ -121,7 +133,7 @@ var cell_template = function(parent){
                 //debugger;
                 var current_player = self.parent.get_current_player();
                 self.symbol = current_player.get_symbol();
-                console.log('current player\'s symbol: '+self.symbol);
+                //console.log('current player\'s symbol: '+self.symbol);
                 self.element.addClass('selected');
                 self.change_symbol(self.symbol);
                 self.parent.cell_clicked(self,1); // run win condition check
@@ -143,15 +155,8 @@ var cell_template = function(parent){
          This function runs just like a successful answer except does not add selected
          class and symbol.
          */
-        var current_player = self.parent.get_current_player();
-        self.symbol = current_player.get_symbol();
-        console.log('current player\'s symbol: '+self.symbol);
-        //self.element.addClass('selected');
-        /*
-         It also runs this cell clicked function with a 2nd parameter of false, make it
-         so win condition does not gets check and added to our count
-         */
         self.parent.cell_clicked(self,0);
+
     };
 
     this.add_temp_placeholder = function(symbol){
@@ -160,7 +165,7 @@ var cell_template = function(parent){
             class: 'inside_ttt blink_me transparent',
             html:symbol
         });
-        console.log("inside ",symbol);
+        //console.log("inside ",symbol);
 
         self.element.append(inside);
         run_blink();
@@ -172,11 +177,11 @@ var cell_template = function(parent){
             class: 'inside_ttt',
             html:symbol
         });
-        console.log("Create! " + self.parent.board_size);
+        //console.log("Create! " + self.parent.board_size);
         self.element.append(inside);
         if(self.parent.board_size > 0 && self.parent.board_size <= 3) {
-            console.log("YES");
-            console.log("size is " + $(".inside_ttt").css("font-size"));
+            //console.log("YES");
+            //console.log("size is " + $(".inside_ttt").css("font-size"));
             $(".inside_ttt").css("font-size","9vh");
             //$(".inside_ttt").addClass("lg_font");
         } else if (self.parent.board_size > 3 && self.parent.board_size <= 8) {
@@ -273,6 +278,16 @@ var game_template = function(main_element,board_size,win_size){
         self.switch_players();
         self.players[self.current_player].activate_player();
 
+        //console.log("how many cells " + this.cell_array.length);
+        this.total_cell = this.cell_array.length;
+        //console.log("how many selected cells ", $(".selected").length);
+
+        this.total_selected = $(".inside_ttt").length;
+        if (this.total_cell === this.total_selected) {
+            //console.log("TIE!");
+            this.callTie();
+        }
+
     };
     this.check_win_conditions = function(){
         //console.log('check win conditions called');
@@ -283,19 +298,29 @@ var game_template = function(main_element,board_size,win_size){
             var count=0;
             //console.log('checking win conditions ',this.win_conditions);
             //console.log('cell array is',this.cell_array);
+            this.applause = false;
             for(var j=0; j<this.win_conditions[i].length; j++){
                 if(this.cell_array[this.win_conditions[i][j]].get_symbol() == current_player_symbol){
                     count++;
-                    console.log(current_player_symbol + " " + " " + j + " win count is " + count);
+                    //console.log("Player " + current_player_symbol + ", i is: " + i + ",j is: " + j + " win count is " + count + ", on Win : "+ this.win_conditions[i][j]);
                     if(count==win_size){
                         /*
                          Even though win size is customizable, it does not check if the matches
                          were consecutive, we can have a win where X X O X is a win :(
                          */
                         clearInterval(main_game.timeCounter); // stop the timer in event of win
-                        console.log('someone won'); this.player_wins(this.players[this.current_player]);
+                        console.log('someone won');
+                        this.player_wins(this.players[this.current_player]);
                         // TODO Here is where you increment the object properties for the winner
-                    }//end of count == 3
+                        if(!this.applause)
+                        {
+                            var applause = new Audio('assets/sounds/applause.mp3');
+                            applause.play();
+                            this.applause = true;
+                            //console.log(this.applause);
+                        }
+
+                    } //end of count == 3
 
                 } else { //if symbols don't match consecutively reset count to zero
                     count = 0;
@@ -304,19 +329,38 @@ var game_template = function(main_element,board_size,win_size){
         } //end of outer loop
     };
     this.player_wins = function(player){
-        //console.log(player.get_symbol()+' won the game');
-        //alert(player.get_symbol()+' won the game');
-
         /*
          Show out custom win message popup! No more alerts!
          */
+        console.log("Player Won!");
         $("#win").html('Player ' + player.get_symbol()+ ' won the game!');
         $("#win").show();
         $("#reset_button").addClass('blink_me');
         run_blink();
         $(".ttt_cell").addClass("selected");
+        if(!this.no_click) {
+            if(player.get_symbol() === "X")
+            {
+                player_x_wins++;
+            } else {
+                player_o_wins++;
+            }
+        }
+
         this.no_click = true;
     };
+
+    this.callTie = function(){
+        console.log(this.applause);
+        if(!this.applause) {
+            $("#win").html('It\'s a draw!');
+            $("#win").show();
+            $("#reset_button").addClass('blink_me');
+            run_blink();
+            $(".ttt_cell").addClass("selected");
+            this.no_click = true;
+        }
+    }
 };
 
 var player_template = function(symbol, element){
@@ -432,6 +476,14 @@ function clear_all() {
     main_game.create_players();
     $("#win").hide();
     $("#reset_button").removeClass('blink_me');
+    $("#pxScore").text(player_x_wins);
+    $("#poScore").text(player_o_wins);
+    $("#gpSpan").text(++games_played);
+    console.log(player_o_wins,player_x_wins,games_played);
+    //games_played = 0;
+    //player_o_wins = 0;
+    //player_x_wins = 0;
+
 }
 
 
@@ -462,6 +514,8 @@ function calltimer(that) {
             $("#win span").addClass("blink_me");
             run_blink();
             $("#win").show();
+            var times_up = new Audio('assets/sounds/timesup.mp3');
+            times_up.play();
             $("#win").click(function(){
                 $(this).hide();
                 $("#win span").removeClass("blink_me");
@@ -470,14 +524,17 @@ function calltimer(that) {
 
             $("#start_clock").addClass("timer_no_start").removeClass("timer");
             $("#start_mask").addClass("mask_no_start").removeClass("mask");
+
+            $("#temp_placeholder").remove();
+            this.no_click = true;
         }
         /*
          As long as the timer is not 0, update our timer div with the current count
          */
         $("#timer span").text(count);
-        var audio = new Audio('assets/sounds/Tick.mp3');
-        audio.play();
-        console.log(count);
+        var tick = new Audio('assets/sounds/Tick.mp3');
+        tick.play();
+        //console.log(count);
 
     }, 1000); //1000 will  run it every 1 second
 }
@@ -537,7 +594,7 @@ var choicesArray=['Yes<br>No',
     '(a)Yes. That’s why the boxes are there. <br>(b)No. Only fill in the boxes necessary for the source you are citing.',
     '(a)Ten spaces or two tabs <br>(b)Five spaces or one tab.',
     '(a)No. URLs are long and messy and should never be included <br>(b)Yes! URLs are required by the new MLA 8 style.',
-    '(a)Johnson, Betty. “Abstract Art.”<em> Modern Art – San Francisco</em>, 24 Jan. 2015, www.MASF.org/abstract_art.html. Accessed 11 Oct. 2015. <br> (b)Johnson, Betty. “Abstract Art.”<em> Modern Art – San Francisco</em>, 24 Jan. 2015, http://www.MASF.org/abstract_art.html. Accessed 11 Oct. 2015.',
+    '(a)Johnson, Betty. “Abstract Art.”Modern Art – San Francisco, 24 Jan. 2015, www.MASF.org/abstract_art.html. Accessed 11 Oct. 2015. <br> (b)Johnson, Betty. “Abstract Art.”<em> Modern Art – San Francisco</em>, 24 Jan. 2015, http://www.MASF.org/abstract_art.html. Accessed 11 Oct. 2015.',
     '(a)(239 Smith)<br>(b)(Smith, 239)<br>(c)(Smith, p. 239)<br>(d)(Smith 239)',
     '(a)Smith, John. “Modern World History.”<br> (b)Smith, John. “World History Overview.”',
     '(a)The webpage article title (which is in quotes)<br>(b)The publisher of the website;',
@@ -566,7 +623,7 @@ var answerArray=['No',
     '(b)No. Only fill in the boxes necessary for the source you are citing.',
     '(b)Five spaces or one tab.',
     '(b)Yes! URLs are required by the new MLA 8 style.',
-    '(a)Johnson, Betty. “Abstract Art.”Modern Art – San Francisco, 24 Jan. 2015, www.MASF.org/abstract_art.html. Accessed 11 Oct. 2015.',
+    '(a)Johnson, Betty. “Abstract Art.”Modern Art – San Francisco, 24 Jan. 2015, www.MASF.org/abstract_art.html. Accessed 11 Oct. 2015. ',
     '(d)(Smith 239)',
     '(a)Smith, John. “Modern World History.”',
     '(a)The webpage article title (which is in quotes)',
