@@ -1,0 +1,277 @@
+
+
+#header {
+    text-align: center;
+    height: 10%;
+    font-family: 'Coda Caption', sans-serif;
+    color: lawngreen;
+    text-shadow: 3px 2px 0 green,
+    4px 3px 0 white;
+}
+
+body {
+    height: 100vh;
+    #width: 100vw;
+    background-image: url("assets/background_images/globe-books-library.jpg");
+    background-position: center;
+    font-family: 'Coda Caption', sans-serif;
+    color:black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-shadow: 3px 2px 0 white,
+    4px 3px 0 black;
+    font-size: 1.25vw;
+}
+
+#stats_player_area {
+    /*background-color: gray;*/
+    height: 28vh;
+    font-family: 'Coda Caption', sans-serif;
+}
+
+#stats ul {
+    list-style-type: none;
+    height: 100%;
+    text-align: center;
+    padding: 0;
+    font-weight: bold;
+}
+#stats {
+    font-size:16px;
+    /*height: 90%;*/
+    border: solid black 3px;
+    text-shadow: 0px 0px 0 white,
+    0px 0px 0 black;
+    background-color: rgba(255,255,255,.90);
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+}
+
+#stats h3:first-child {
+    text-align: center;
+    font-family: 'Coda Caption', sans-serif;
+}
+
+#stats h3 {
+    text-align: center;
+}
+
+#timer {
+    /*border-radius: 90px;*/
+    height: 19vh;
+    width: 19vh;
+    text-align: center;
+    background-image:url("assets/background_images/timer-icon-19.png");
+    background-size:contain;
+    background-repeat: no-repeat;
+    font-family: 'Coda Caption', sans-serif;
+    color: black;
+    text-shadow: 0px 0px 0 white,
+    0px 0px 0 black;
+    font-size: 2vw;
+    position: relative;
+    /*background-color: red;*/
+}
+#timer span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#player_area {
+    text-align: center;
+    /*width: 65%;*/
+    height: 100%;
+    text-shadow: 1px 2px 0 white,
+    1px 2px 0 black;
+}
+#game_area {
+    /*background-color: lightblue;*/
+    /*border: solid black 1px;*/
+    height: 65vh;
+
+}
+#question_area {
+    /*background-color: lightgreen;*/
+    height: 60%;
+    padding: 0;
+    text-align: center;
+    text-shadow: 0px 0px 0 black,
+    0px 0px 0 black;
+    /*background-image: url("assets/background_images/12.questionsThing.jpg");*/
+    /*background-position: center;*/
+    /*background-size: 65vh;*/
+    /*text-align: center;*/
+
+}
+
+#gamebody {
+    height: 90%;
+    /*width: 45%;*/
+    text-align: center;
+    border: 15px;
+    padding: 0;
+    background-color: rgba(255,255,255,.9);
+    /*background-repeat: no-repeat;*/
+    /*background-color: lavender;*/
+
+}
+
+.ttt_cell{
+    width: 33%;
+    box-sizing: border-box;
+    border: 2px solid black;
+    height: 33%;
+    display: inline-block;
+    font-size: 2em;
+    font-family: 'Coda Caption', sans-serif;
+    color: black;
+    text-shadow: 3px 2px 0 white,
+    4px 3px 0 black;
+    cursor: pointer;
+    position: relative;
+}
+
+.inside_ttt {
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 9vh;
+}
+
+.transparent {
+    opacity: .5;
+}
+
+.lg_font {
+    font-size: 10vh;
+}
+
+.md_font {
+    font-size: 6vh;
+}
+
+.sm_font {
+    font-size: 5vh;
+}
+
+#players{
+    height: 50%;
+    margin: 0 auto;
+    font-size: 0;
+}
+#players .player_indicator{
+    font-size: initial;
+    display: inline-block;
+    height: 50%;
+    position: relative;
+    border: 3px solid limegreen;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 10px 10px 10px black;
+}
+#players .player_indicator span{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+}
+.player_indicator {
+    background-color: rgba(255,255,255,.5);
+}
+
+.active_player{
+    background-color: greenyellow;
+}
+#selectarea .board_number_size {
+    text-align: center;
+
+}
+#question {
+    min-height: 40%;
+    height: auto;
+    background-color: #545454;
+    border: solid black 3px;
+    border-radius: 10px 10px 10px 10px;
+    margin: 0;
+    font-size: 15px;
+    color: lightgray;
+    font-family: Arial, sans-serif;
+    text-shadow: 3px 2px 0 black,
+    4px 3px 0 #545454;
+}
+
+.choices {
+    margin: 5px;
+    border: 1px solid black;
+    background-color: grey;
+    padding: 5px;
+}
+.choices:hover {
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+.answer_selected {
+    border: 1px solid #3f51b5 !important;
+}
+
+.red_advice {
+    margin: 5px;
+    border: 1px solid black;
+    background-color: red;
+    padding: 5px;
+}
+
+.red_advice:hover {
+    background-color: red;
+}
+.green_advice {
+    margin: 5px;
+    border: 1px solid black;
+    background-color: green;
+    padding: 5px;
+}
+
+.green_advice:hover {
+    background-color: green;
+}
+
+#win {
+    padding: 15px;
+    position: absolute;
+    left:50%;
+    top: 50%;
+    font-size: 3em;
+    background-color: red;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    display:none;
+}
+
+#win:hover {
+    cursor: pointer;
+}
+
+#settings_window {
+    font-family: Arial,sans-serif;
+    font-size: 16px;
+    text-shadow: none;
+    position: absolute;
+    left: 0;
+    top: 30%;
+    background-color: lightcyan;
+    height: 25vh;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 15px;
+    display:none;
+}
+#settings_container {
+}
+
+#settings_float {
+
+}

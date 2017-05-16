@@ -2,65 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tic Tac Toe</title>
-    <style>
-        body{
-            height: 100vh;
-            width: 100vh;
-            font-size: 0px;
-        }
-
-        #gamebody{
-            height: 60vh;
-            width: 60vh;
-            background-color: lavender;
-
-        }
-        .ttt_cell{
-            width: 33%;
-            box-sizing: border-box;
-            border: 1px solid black;
-            height: 33%;
-            display: inline-block;
-            font-size: initial;
-        }
-
-        #players{
-            background-color: lavender;
-            height: 20%;
-            width: 50%;
-        }
-        #players .player_indicator{
-            font-size: initial;
-            display: inline-block;
-            width: 50%;
-            height: 100%;
-            position: relative;
-        }
-        #players .player_indicator span{
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            #transform: translate(-50%, -50%);
-        }
-
-        .active_player{
-            background-color: red;
-        }
-    </style>
+    <title id="title">Tic Tac Toe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Coda+Caption:800" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="script.js"></script>
 
-    <script>
-
-    </script>
 </head>
-<body>
-<div id="gamebody">
+<body    class="container">
+<div >
+    <!--Game title-->
+    <div id="header" class="col-lg-12 col-xs-12">
+        <h1>Tic-Tac-Toe</h1>
+    </div>
+    <!--Stats list to display score, games played, proficiency and reset game-->
+    <div id="stats_player_area" class="col-lg-12 col-xs-12">
+        <div id="stats" class="col-sm-3 col-xs-12 hidden-sm">
+                <h3>Stats</h3>
+            <ul>
+                <li>Games Played: <span id="gpSpan" class="label label-default">0</span>
+                    </li>
+                <li>X Score: <span id="pxScore" class="label label-default">0</span>
+                    </li>
+                <li>O Score: <span id="poScore" class="label label-default">0</span>
+                </li>
+            </ul>
+        </div>
+        <!--main tictactoe game area for player 1 and 2-->
+        <div id="player_area" class="col-sm-6 col-xs-7">
+            <div id="players" class="col-xs-12">
+                <div class="player_indicator col-xs-6" id="player1"><span>Player X</span></div>
+                <div class="player_indicator col-xs-6" id="player2"><span>Player O</span></div>
+            </div>
+            <button id="settings" class="btn btn-info">Settings</button>
+            <button id="reset_button" class="btn btn-warning">Reset</button>
+        </div>
+        <div id="timer" class="col-sm-3 col-xs-5">
+            <span>Timer</span>
+        </div>
+    </div>
 </div>
-<div id="players">
-    <div class="player_indicator" id="player1"><span>X</span></div>
-    <div class="player_indicator" id="player2"><span>O</span></div>
+<div id="game_area" class="col-lg-12 col-xs-12">
+    <div id="gamebody" class="col-sm-6 col-xs-12">
+    </div>
+    <!--area for questions to be generated-->
+    <div id="question_area" class="col-sm-6 col-xs-12">
+        <div id="question">
+            <h1>Question</h1>
+            <!--area for answer to be generated-->
+        </div>
+        <div id="answer">
+        </div>
+    </div>
+</div>
+<div id="win" class="col-xs-12">You Win!</div>
+<div id="settings_window" class="col-xs-12">
+    <div id="settings_container" class="col-xs-12">
+        <div id="settings_float" class="col-xs-12">
+            <div class="board_number_size col-xs-6 form-group">
+                <label for="board_size">Change Board Size:</label>
+                <select name="board_size" id="board_size" class="form-control">
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                </select>
+            </div>
+            <div class="board_number_size col-xs-6 form-group">
+                <label for="win_size">Change Minimum Win Size:</label>
+                <select name="win_size" id="win_size" class="form-control">
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                </select>
+            </div>
+            <div class="container col-xs-12 form-group">
+                <button id="submit" class="btn btn-success">Submit</button>
+                <button id="settings_close" class="btn btn-error">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
